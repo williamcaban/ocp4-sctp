@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sctpserver
+  labels:
+    app: sctpserver
+spec:
+  selector:
+    matchLabels:
+      app: sctpserver
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: sctpserver
+    spec:
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+#      hostNetwork: true
+      securityContext:
+        privileged: true
+      containers:
+      - image: quay.io/wcaban/net-toolbox:latest
+        imagePullPolicy: IfNotPresent
+        name: sctpserver
+       command:
+       - sctp_test
+       args:
+       - -l
+       - -P 30100
+       ports:
+       - containerPort: 30100
+#         nodePort: 30100
+         name: sctpserver
+         protocol: SCTP
+      serviceAccount: system:serviceaccount:ocp-sctp:sctp-sa
+      serviceAccountName: system:serviceaccount:ocp-sctp:sctp-sa
