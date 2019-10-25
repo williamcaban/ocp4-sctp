@@ -83,6 +83,13 @@
     Server: Receiving packets.
             recvmsg(sk=3)
     ```
+- In another shell login to the same Pod and validate is listening with SCTP protocol
+    ```
+    # netstat --sctp -atplun
+    Active Internet connections (servers and established)
+    Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+    sctp                :::30100                                        LISTEN      29/sctp_test
+    ```
 
 - Deploy an STCP Service resrouce:
     ```
