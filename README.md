@@ -101,3 +101,8 @@
     NAME         TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)            AGE
     sctpserver   NodePort   172.30.134.99   <none>        30100:30100/SCTP   3s
     ```
+
+
+# Acknowledgements
+
+Thanks to Ricardo Noriega who helped with some of the troubleshootings. Take a look to his work at the [OpenAir Interface project](https://github.com/OPENAIRINTERFACE/openair-k8s/tree/master/manifests)
