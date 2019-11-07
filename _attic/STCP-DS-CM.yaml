@@ -1,0 +1,5 @@
+- Deploy ConfigMap and DaemonSet to load SCTP Kernel Module into Nodes
+    ```
+    oc create -f 02-sctp-cm.yaml
+    oc create -f 02-sctp-ds.yaml
+    ```
