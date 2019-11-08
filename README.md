@@ -8,9 +8,9 @@
 
 - Create a FeatureGate resource to enable the SCTP Kubernetes Alpha feature.
 
-  ```
-  oc create -f 00-featuregate.yaml
-  ```
+    ```
+    oc create -f 00-featuregate.yaml
+    ```
 
 - Create project for SCTP feature
     ```
@@ -23,11 +23,11 @@
   oc adm policy add-role-to-user cluster-admin -z sctp-sa
   ```
 
-- Deploy ConfigMap and DaemonSet to load SCTP Kernel Module into Nodes
+- Deploy MachineConfig to whitelist SCTP Kernel Module
     ```
-    oc create -f 02-sctp-cm.yaml
-    oc create -f 02-sctp-ds.yaml
+    oc create -f 02-allow-sctp.yaml
     ```
+
 - Validate the DaemonSet is running (one per Node)
   ```
   # oc get pod
@@ -102,6 +102,12 @@
     sctpserver   NodePort   172.30.134.99   <none>        30100:30100/SCTP   3s
     ```
 
+## Troubleshooting
+
+- To troubleshoot or validate SELinux issues
+    ```
+    journalctl -b _TRANSPORT=kernel --grep=avc:
+    ```
 
 # Acknowledgements
 
