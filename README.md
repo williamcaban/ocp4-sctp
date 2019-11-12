@@ -1,4 +1,4 @@
-# Enabling SCTP on OpenShift 4.2.x
+# Enabling SCTP on OpenShift
 
 ```
 #########################################################################
@@ -6,10 +6,10 @@
 #########################################################################
 ```
 
-- Create a FeatureGate resource to enable the SCTP Kubernetes Alpha feature.
+- Patch cluster FeatureGate resource to enable the SCTP Kubernetes Alpha feature.
 
     ```
-    oc create -f 00-featuregate.yaml
+    oc patch featureGate cluster --type merge -p '{"spec":{"featureSet":"CustomNoUpgrade","customNoUpgrade":{"enabled":["SCTPSupport"]}}}'
     ```
 
 - Create project for SCTP feature
@@ -25,7 +25,7 @@
 
 - Deploy MachineConfig to whitelist SCTP Kernel Module
     ```
-    oc create -f 02-allow-sctp.yaml
+    oc create -f 02-allow-sctp-worker.yaml
     ```
 
 - Validate the DaemonSet is running (one per Node)
@@ -91,9 +91,9 @@
     sctp                :::30100                                        LISTEN      29/sctp_test
     ```
 
-- Deploy an STCP Service resrouce:
+- Deploy an STCP Service resource:
     ```
-    oc create -f 05-sctp-app-svc.yaml
+    oc create -f 06-sctp-app-svc.yaml
     ```
 - Validate the service shows SCTP protocol for the ports:
     ```
