@@ -3,41 +3,21 @@
 ```
 #########################################################################
  WARNING: THIS PROCEDURE CANNOT BE UNDONE AND PREVENTS CLUSTER UPGRADES.
+** DO NOT USE THIS PROCEDURE WITH OCP 4.3.x SCTP FEATUREGATE AVAILABLE **
 #########################################################################
 ```
 
 - Create a FeatureGate resource to enable the SCTP Kubernetes Alpha feature.
-
     ```
     oc create -f 00-featuregate.yaml
     ```
-
-- Create project for SCTP feature
-    ```
-    oc new-project ocp-sctp
-    ```
-
-- Create a Service Account with cluster-admin privileges (required for now for SCTP sockets)
-  ```
-  oc create sa sctp-sa
-  oc adm policy add-role-to-user cluster-admin -z sctp-sa
-  ```
 
 - Deploy MachineConfig to whitelist SCTP Kernel Module
     ```
     oc create -f 02-allow-sctp.yaml
     ```
 
-- Validate the DaemonSet is running (one per Node)
-  ```
-  # oc get pod
-  NAME            READY   STATUS    RESTARTS   AGE
-  sctp-ds-2tjfw   1/1     Running   0          35s
-  sctp-ds-jvkrb   1/1     Running   0          35s
-  sctp-ds-v9j2l   1/1     Running   0          35s
-  sctp-ds-xv7bq   1/1     Running   0          36s
-  ...
-  ```
+- Wait for the Operator to complete the configuration update
 
 ## Testing an SCTP Demo App
 
@@ -47,6 +27,7 @@
     ```
 
 - Create a Service Account with cluster-admin privileges (required for now for SCTP sockets)
+    NOTE: This is NOT necesary in OCP 4.3.x versions
     ```
     oc create sa sctp-sa
     oc adm policy add-role-to-user cluster-admin -z sctp-sa
